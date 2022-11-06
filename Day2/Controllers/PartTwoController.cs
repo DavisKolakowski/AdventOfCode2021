@@ -6,7 +6,7 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    public class PartOneController : ControllerBase
+    public class PartTwoController : ControllerBase
     {
         [HttpPost]
         public async Task<int> Post(IFormFile file)
@@ -21,6 +21,7 @@
 
             var x = 0;
             var y = 0;
+            var aim = 0;
 
             foreach (var line in lines)
             {
@@ -29,12 +30,13 @@
                 {
                     case "forward" : 
                             x += Convert.ToInt32(lineSplit[1]);
+                            y += Convert.ToInt32(lineSplit[1]) * aim;
                         break;
                     case "down" : 
-                            y += Convert.ToInt32(lineSplit[1]);
+                            aim += Convert.ToInt32(lineSplit[1]);
                         break;
                     case "up" : 
-                            y -= Convert.ToInt32(lineSplit[1]);
+                            aim -= Convert.ToInt32(lineSplit[1]);
                         break;
                 }
             }
