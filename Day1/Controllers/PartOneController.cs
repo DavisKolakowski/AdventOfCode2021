@@ -2,8 +2,6 @@
 
 namespace Day1.Controllers
 {
-    using Day1.ResponseObjects;
-
     using Microsoft.AspNetCore.Components.Forms;
     using Microsoft.AspNetCore.Mvc;
 
@@ -18,25 +16,19 @@ namespace Day1.Controllers
         [HttpPost]
         public async Task<int> Post(IFormFile file)
         {
-            var result = new List<int>();
+            var input = new List<int>();
+
             using (var reader = new StreamReader(file.OpenReadStream()))
             {
                 while (reader.Peek() >= 0)
-                    result.Add(Convert.ToInt32(await reader.ReadLineAsync()));
-            }
-            var items = result.ToList();
-
-            var list = new List<int>();
-
-            for (int i = 1; i < result.Count; i++)
-            {
-                if (items[i] > items[i - 1])
-                {
-                    list.Add(items[i]);
-                }
+                    input.Add(Convert.ToInt32(await reader.ReadLineAsync()));
             }
 
-            return list.Count;
+            var result = input.Skip(1)
+                .Select((x, i) => x > input[i])
+                .Count(x => x);
+
+            return result;
         }
     }
 }
